@@ -98,11 +98,25 @@ var UIController = (function() {
             // Replace the placeholder text with actual data
             newHtml = html.replace('%id', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value', obj.value); 
+            newHtml = newHtml.replace('%value%', obj.value); 
 
             // Insert the html into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
+        },
+
+        clearFields: function() {
+            var fields, fieldsArr;
+
+            fields = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
+
+            fieldsArr = Array.prototype.slice.call(fields);
+
+            fieldsArr.forEach(function(current, index, array) {
+                current.value = "";
+            });
+
+            fieldsArr[0].focus();
         },
 
         getDOMStrings: function() {
@@ -142,6 +156,9 @@ var controller = (function(budgetCtrl, UICtrl) {
 
         // Add item to the UI 
         UICtrl.addListItem(newItem, input.type);
+
+        // Clear the fields
+        UICtrl.clearFields();
 
         // Calculate the budget
 
